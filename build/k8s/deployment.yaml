@@ -17,5 +17,6 @@ spec:
       containers:
         - name: todoapi
           image: brandallk/gotodoapi
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
