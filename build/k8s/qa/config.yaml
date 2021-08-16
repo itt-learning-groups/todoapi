@@ -1,11 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: todoapi-configs-qa
+  name: todoapi-configs
   labels:
     app: todoapi
-    env: qa
-  namespace: default
 data:
   dbhostname: cluster0.ci2qu.mongodb.net
   dbdbname: todoapiqa

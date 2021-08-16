@@ -1,21 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todoapi-qa
+  name: todoapi
   labels:
     app: todoapi
-    env: qa
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: todoapi
-      env: qa
   template:
     metadata:
       labels:
         app: todoapi
-        env: qa
     spec:
       containers:
         - name: todoapi
@@ -27,27 +24,27 @@ spec:
             - name: DB_HOSTNAME
               valueFrom:
                 configMapKeyRef:
-                  name: todoapi-configs-qa
+                  name: todoapi-configs
                   key: dbhostname
             - name: DB_DBNAME
               valueFrom:
                 configMapKeyRef:
-                  name: todoapi-configs-qa
+                  name: todoapi-configs
                   key: dbdbname
             - name: DB_TODOS_COLLECTION
               valueFrom:
                 configMapKeyRef:
-                  name: todoapi-configs-qa
+                  name: todoapi-configs
                   key: dbtodoscollection
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: todoapi-configs-qa
+                  name: todoapi-configs
                   key: dbusername
             - name: DB_PSWD
               valueFrom:
                 secretKeyRef:
-                  name: todoapi-configs-qa
+                  name: todoapi-configs
                   key: dbpswd
           livenessProbe:
             httpGet:

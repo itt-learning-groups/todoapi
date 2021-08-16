@@ -1,10 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: todoapi-dev
+  name: todoapi
   labels:
     app: todoapi
-    env: dev
 spec:
   type: LoadBalancer
   ports:
@@ -12,4 +11,3 @@ spec:
       targetPort: 8080
   selector:
     app: todoapi
-    env: dev
