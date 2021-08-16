@@ -25,12 +25,37 @@ spec:
             - containerPort: 8080
           env:
             - name: DB_HOSTNAME
-              value: "cluster0.ci2qu.mongodb.net"
+              valueFrom:
+                configMapKeyRef:
+                  name: todoapi-configs-dev
+                  key: dbhostname
             - name: DB_DBNAME
-              value: "todoapidev"
+              valueFrom:
+                configMapKeyRef:
+                  name: todoapi-configs-dev
+                  key: dbdbname
             - name: DB_TODOS_COLLECTION
-              value: "todos"
+              valueFrom:
+                configMapKeyRef:
+                  name: todoapi-configs-dev
+                  key: dbtodoscollection
             - name: DB_USERNAME
-              value: " <redacted> "
+              valueFrom:
+                secretKeyRef:
+                  name: todoapi-configs-dev
+                  key: dbusername
             - name: DB_PSWD
-              value: " <redacted> "
+              valueFrom:
+                secretKeyRef:
+                  name: todoapi-configs-dev
+                  key: dbpswd
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /list
+              port: 8080
+            initialDelaySeconds: 10

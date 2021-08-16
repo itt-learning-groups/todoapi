@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todoapi-configs-dev
+  labels:
+    app: todoapi
+    env: dev
+  namespace: default
+data:
+  dbhostname: cluster0.ci2qu.mongodb.net
+  dbdbname: todoapidev
+  dbtodoscollection: todos
