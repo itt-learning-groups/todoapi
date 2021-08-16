@@ -2,28 +2,29 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
-	"os"
-
 	"github.com/us-learn-and-devops/todoapi/cmd/todo_api_server/handlers"
 	"github.com/us-learn-and-devops/todoapi/configs"
 	envcfg "github.com/us-learn-and-devops/todoapi/pkg/envconfig"
+	"log"
+	"net/http"
 )
 
 func main() {
 	cfgs := &configs.Settings{}
 	err := envcfg.Unmarshal(cfgs)
 	if err != nil {
-		fmt.Printf("Failed to get configs: %s", err)
-		os.Exit(1)
+		log.Fatalf("Failed to get configs: %s", err)
 	}
 
-	tl := handlers.NewTodoListHandler()
+	tl, err:= handlers.NewTodoListHandler(cfgs)
+	if err != nil {
+		log.Fatalf("main.main failed to create TodoListHandler: %v", err)
+	}
+
 	r := handlers.NewRouter(tl)
 
 	host := fmt.Sprintf("%s:%s", cfgs.ServerAddr, cfgs.ServerPort)
 
-	fmt.Printf("serving todo-api on %s", host)
+	log.Printf("serving todo-api on %s\n", host)
 	log.Fatal(http.ListenAndServe(host, r))
 }

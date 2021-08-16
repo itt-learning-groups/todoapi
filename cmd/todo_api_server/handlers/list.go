@@ -4,14 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"io"
-	"net/http"
-	"net/url"
-
 	"github.com/gorilla/mux"
+	"github.com/us-learn-and-devops/todoapi/configs"
 	"github.com/us-learn-and-devops/todoapi/internal/domain/storage"
 	"github.com/us-learn-and-devops/todoapi/internal/domain/todo"
 	"gopkg.in/go-playground/validator.v9"
+	"io"
+	"net/http"
+	"net/url"
+	"time"
 )
 
 type TodoListHandler struct {
@@ -19,12 +20,26 @@ type TodoListHandler struct {
 	validate *validator.Validate
 }
 
-func NewTodoListHandler() TodoListHandler {
-	db := storage.NewInMemoryDB()
+func NewTodoListHandler(cfgs *configs.Settings) (TodoListHandler, error) {
+	timeout := time.Duration(cfgs.DatabaseCxnTimeoutSeconds) * time.Second
+
+	db, err := storage.NewMongoDB(
+		cfgs.DatabaseHostName,
+		cfgs.DatabaseDBName,
+		cfgs.DatabaseTodosCollection,
+		cfgs.DatabaseUserName,
+		cfgs.DatabasePswd,
+		timeout,
+	)
+
+	if err != nil {
+		return TodoListHandler{}, err
+	}
+
 	return TodoListHandler{
 		db:       db,
 		validate: validator.New(),
-	}
+	}, nil
 }
 
 func (h TodoListHandler) EchoPost(w http.ResponseWriter, r *http.Request) {

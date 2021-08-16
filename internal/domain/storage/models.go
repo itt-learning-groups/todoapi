@@ -1,6 +1,12 @@
 package storage
 
-import "context"
+import (
+	"context"
+	"errors"
+)
+
+var ErrNotFound = errors.New("not found")
+var ErrAlreadyInList = errors.New("todo already in list")
 
 type DB interface {
 	SaveTodo(ctx context.Context, name, description string) (Todo, error)

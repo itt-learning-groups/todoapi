@@ -2,7 +2,7 @@ package storage
 
 import (
 	"context"
-	"errors"
+
 	"github.com/google/uuid"
 )
 
@@ -14,17 +14,14 @@ func NewInMemoryDB() *InMemoryDB {
 	return &InMemoryDB{}
 }
 
-var ErrNotFound = errors.New("not found")
-var ErrAlreadyInList = errors.New("todo already in list")
-
 func (db *InMemoryDB) SaveTodo(ctx context.Context, name, description string) (Todo, error) {
 	if _, err := db.GetTodoByName(ctx, name); err != ErrNotFound {
 		return Todo{}, ErrAlreadyInList
 	}
 
 	todo := Todo{
-		ID: createID(),
-		Name: name,
+		ID:          createID(),
+		Name:        name,
 		Description: description,
 	}
 
@@ -79,7 +76,7 @@ func (db *InMemoryDB) DeleteTodo(ctx context.Context, id string) error {
 	for i := range db.todoList {
 		item := db.todoList[i]
 		if item.ID == id {
-			if i == len(db.todoList) - 1 {
+			if i == len(db.todoList)-1 {
 				db.todoList = db.todoList[:i]
 			} else {
 				db.todoList = append(db.todoList[:i], db.todoList[i+1:]...)
