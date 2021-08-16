@@ -5,6 +5,7 @@ RUN apk add --update make && \
     make build-alpine
 
 FROM scratch
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /go/src/cmd/todo_api_server/todo_api_server todo_api_server
 USER 1001:1001
 EXPOSE 8080
