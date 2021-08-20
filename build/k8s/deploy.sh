@@ -14,8 +14,8 @@ kubectl label secret todoapi-configs app=todoapi env=dev -n "${ENV}"
 kubectl apply -f ./"${ENV}"/config.yaml -n "${ENV}"
 
 # Deploy the `deployment` and `service` in this namespace
-kubectl apply -f ./"${ENV}"/service.yaml -n "${ENV}"
-kubectl apply -f ./"${ENV}"/deployment.yaml -n "${ENV}"
+kubectl apply -f ./service.yaml -n "${ENV}"
+kubectl apply -f ./deployment.yaml -n "${ENV}"
 
 # Wait a few seconds for the service loadbalancer hostname to be available
 sleep 5
