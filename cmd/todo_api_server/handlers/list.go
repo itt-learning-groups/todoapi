@@ -20,15 +20,15 @@ type TodoListHandler struct {
 	validate *validator.Validate
 }
 
-func NewTodoListHandler(cfgs *configs.Settings) (TodoListHandler, error) {
+func NewTodoListHandler(cfgs *configs.Settings, dbCreds DBCredentials) (TodoListHandler, error) {
 	timeout := time.Duration(cfgs.DatabaseCxnTimeoutSeconds) * time.Second
 
 	db, err := storage.NewMongoDB(
 		cfgs.DatabaseHostName,
 		cfgs.DatabaseDBName,
 		cfgs.DatabaseTodosCollection,
-		cfgs.DatabaseUserName,
-		cfgs.DatabasePswd,
+		dbCreds.Username,
+		dbCreds.Password,
 		timeout,
 	)
 

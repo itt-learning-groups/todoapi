@@ -32,3 +32,8 @@ type editRequest struct {
 }
 
 type EditResponse Todo
+
+type DBCredentials struct {
+	Username string
+	Password string
+}

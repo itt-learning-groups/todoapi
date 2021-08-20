@@ -8,7 +8,7 @@ type Settings struct {
 	DatabaseHostName          string `envcfg:"DB_HOSTNAME" envcfgDefault:""`
 	DatabaseDBName            string `envcfg:"DB_DBNAME" envcfgDefault:""`
 	DatabaseTodosCollection   string `envcfg:"DB_TODOS_COLLECTION" envcfgDefault:""`
-	DatabaseUserName          string `envcfg:"DB_USERNAME" envcfgDefault:""`
-	DatabasePswd              string `envcfg:"DB_PSWD" envcfgDefault:""`
+	DatabaseUserNameFilePath  string `envcfg:"DB_USERNAME_FPATH" envcfgDefault:"/etc/db/secrets/dbusername"`
+	DatabasePswdFilePath      string `envcfg:"DB_PSWD_FPATH" envcfgDefault:"/etc/db/secrets/dbpswd"`
 	DatabaseCxnTimeoutSeconds int64  `envcfg:"DB_TIMEOUT" envcfgDefault:"10"`
 }
