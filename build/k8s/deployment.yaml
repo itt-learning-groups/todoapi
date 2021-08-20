@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todoapi
-          image: brandallk/gotodoapi:wipaug4
+          image: brandallk/gotodoapi:secret-volmount
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -36,16 +36,10 @@ spec:
                 configMapKeyRef:
                   name: todoapi-configs
                   key: dbtodoscollection
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: todoapi-configs
-                  key: dbusername
-            - name: DB_PSWD
-              valueFrom:
-                secretKeyRef:
-                  name: todoapi-configs
-                  key: dbpswd
+          volumeMounts:
+            - name: db-secrets
+              mountPath: /etc/db/secrets/
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /
@@ -56,3 +50,7 @@ spec:
               path: /list
               port: 8080
             initialDelaySeconds: 10
+      volumes:
+        - name: db-secrets
+          secret:
+            secretName: todoapi-configs
