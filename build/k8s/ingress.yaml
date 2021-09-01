@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todoapi
+  labels:
+    app: todoapi
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: todoapi1
+                port:
+                  number: 80
+          - path: /echo/
+            pathType: Prefix
+            backend:
+              service:
+                name: todoapi2
+                port:
+                  number: 80
