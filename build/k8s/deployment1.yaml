@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todoapi
+  name: todoapi1
   labels:
-    app: todoapi
+    app: todoapi1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todoapi
+      app: todoapi1
   template:
     metadata:
       labels:
-        app: todoapi
+        app: todoapi1
     spec:
       imagePullSecrets:
         - name: dockerlogin
