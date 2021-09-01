@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todoapi
-          image: brandallk/gotodoapi:secret-volmount
+          image: brandallk/gotodoapi:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

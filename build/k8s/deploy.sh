@@ -7,8 +7,8 @@ ENV=$1
 kubectl apply -f ./"${ENV}"/namespace.yaml
 
 # Deploy the `secret` that will hold the DB username/password in this namespace
-kubectl create secret generic todoapi-configs --from-file="${ENV}"/secrets -n "${ENV}"
-kubectl label secret todoapi-configs app=todoapi env=dev -n "${ENV}"
+kubectl create secret generic todoapi-configs --from-file="${ENV}/secrets" -n "${ENV}"
+kubectl label secret todoapi-configs app=todoapi -n "${ENV}"
 
 # Deploy the `config-map` that will hold the other DB config values in this namespace
 kubectl apply -f ./"${ENV}"/config.yaml -n "${ENV}"
