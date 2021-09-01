@@ -14,9 +14,11 @@ spec:
       labels:
         app: todoapi
     spec:
+      imagePullSecrets:
+        - name: dockerlogin
       containers:
         - name: todoapi
-          image: brandallk/gotodoapi:secret-volmount
+          image: brandallk/gotodoapiprivate:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
