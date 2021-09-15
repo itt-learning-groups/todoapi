@@ -4,19 +4,9 @@ metadata:
   name: todoapi
   labels:
     app: todoapi
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
-    ingress.kubernetes.io/force-ssl-redirect: "true"
-    kubernetes.io/ingress.class: contour
-    kubernetes.io/tls-acme: "true"
 spec:
-  tls:
-    - secretName: todoapi
-      hosts:
-        - todoapi.dev.ittlearninggroups.com
   rules:
-    - host: todoapi.dev.ittlearninggroups.com
-      http:
+    - http:
         paths:
           - path: /
             pathType: Prefix

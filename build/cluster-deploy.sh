@@ -14,12 +14,3 @@ eksctl create cluster \
 
 # create a kubeconfig for the new cluster
 aws eks update-kubeconfig --name learnanddevops --region us-west-2
-
-# install the Contour ingress controller
-kubectl apply -f https://j.hept.io/contour-deployment-rbac
-
-# install the jetstack cert-manager
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
-
-# install a TLS-cert ClusterIssuer that uses the Let's Encrypt prod server
-kubectl apply -f letsencrypt.yaml
