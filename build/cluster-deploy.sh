@@ -21,5 +21,8 @@ kubectl apply -f https://j.hept.io/contour-deployment-rbac
 # install the jetstack cert-manager
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
 
+# wait a few seconds for the cert-manager webhook to be ready
+sleep 10
+
 # install a TLS-cert ClusterIssuer that uses the Let's Encrypt prod server
 kubectl apply -f letsencrypt.yaml

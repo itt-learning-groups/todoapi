@@ -8,7 +8,7 @@ TODOAPI_SECRETS_PATH="${2:-../../../todoapi_secrets}"
 kubectl apply -f ./"${ENV}"/namespace.yaml
 
 # Deploy the `secret` that will hold the Docker-repository login creds
-# (Requires DOCKER_SERVER, DOCKER_USERNAME, DOCKER_PSWD, and DOCKER_PSWD env vars)
+# (Requires DOCKER_SERVER, DOCKER_USERNAME, DOCKER_PSWD, and DOCKER_EMAIL env vars)
 kubectl create secret docker-registry dockerlogin --docker-server="${DOCKER_SERVER}" --docker-username="${DOCKER_USERNAME}" --docker-password="${DOCKER_PSWD}" --docker-email="${DOCKER_EMAIL}" -n "${ENV}"
 kubectl label secret dockerlogin app=todoapi -n "${ENV}"
 
