@@ -10,14 +10,14 @@ spec:
     kind: Deployment
     name: todoapi
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 10
   metrics:
     - type: Resource
       resource:
         name: memory 
         target:
           type: Utilization 
-          averageValue: 5Mi
+          averageValue: 128Mi
   behavior:
     scaleUp:
-      stabilizationWindowSeconds: 60
+      stabilizationWindowSeconds: 2

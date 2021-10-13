@@ -4,7 +4,7 @@
 mv ~/.kube/config ~/.kube/work_config
 
 eksctl create cluster \
-    --name learnanddevops \
+    --name learnanddevops2 \
     --version 1.19 \
     --region us-west-2 \
     --nodegroup-name worker-nodes \
@@ -13,7 +13,7 @@ eksctl create cluster \
     --managed
 
 # create a kubeconfig for the new cluster
-aws eks update-kubeconfig --name learnanddevops --region us-west-2
+aws eks update-kubeconfig --name learnanddevops2 --region us-west-2
 
 # install the Contour ingress controller
 kubectl apply -f https://j.hept.io/contour-deployment-rbac
