@@ -24,6 +24,9 @@ kubectl apply -f ./"${ENV}"/config.yaml -n "${ENV}"
 kubectl apply -f ./service.yaml -n "${ENV}"
 kubectl apply -f ./deployment.yaml -n "${ENV}"
 
+# Deploy the horizontal pod autoscaler
+kubectl apply -f ./hpa.yaml -n "${ENV}"
+
 # Deploy the `ingress` in this namespace
 kubectl apply -f ./ingress.yaml -n "${ENV}"
 
