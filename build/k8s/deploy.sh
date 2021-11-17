@@ -18,22 +18,22 @@ kubectl create secret generic todoapi-configs --from-file="${TODOAPI_SECRETS_PAT
 kubectl label secret todoapi-configs app=todoapi -n "${ENV}"
 
 # Deploy the `config-map` that will hold the other DB config values in this namespace
-kubectl apply -f ./"${ENV}"/config.yaml -n "${ENV}"
+# kubectl apply -f ./"${ENV}"/config.yaml -n "${ENV}"
 
 # Deploy the `deployment`s and `service`s in this namespace
-kubectl apply -f ./service.yaml -n "${ENV}"
-kubectl apply -f ./deployment.yaml -n "${ENV}"
+# kubectl apply -f ./service.yaml -n "${ENV}"
+# kubectl apply -f ./deployment.yaml -n "${ENV}"
 
 # Deploy the horizontal pod autoscaler
-kubectl apply -f ./hpa.yaml -n "${ENV}"
+# kubectl apply -f ./hpa.yaml -n "${ENV}"
 
 # Deploy the `ingress` in this namespace
-kubectl apply -f ./ingress.yaml -n "${ENV}"
+# kubectl apply -f ./ingress.yaml -n "${ENV}"
 
 # Wait a few seconds for the service loadbalancer hostname to be available
-sleep 5
+# sleep 5
 
 # Print out the service hostname so we can test it (browser, curl, Postman) for this namespace
-printf "\nloadbalancer hostname: "
-kubectl get ingress todoapi -n "${ENV}" -o jsonpath="{.status.loadBalancer.ingress[*].hostname}"
-echo ""
+# printf "\nloadbalancer hostname: "
+# kubectl get ingress todoapi -n "${ENV}" -o jsonpath="{.status.loadBalancer.ingress[*].hostname}"
+# echo ""

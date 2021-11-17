@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-configs
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+data:
+  dbhostname: {{ .Values.db.host.value }}
+  dbdbname: {{ .Values.db.name.value }}
+  dbtodoscollection: {{ .Values.db.collection.value }}

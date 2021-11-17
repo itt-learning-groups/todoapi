@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          {{- with .Values.healthProbes.liveness }}
+          livenessProbe:
+            httpGet:
+              path: {{ .path }}
+              port: http
+            initialDelaySeconds: {{ .delay }}
+          {{- end }}
+          {{- with .Values.healthProbes.readiness }}
+          readinessProbe:
+            httpGet:
+              path: {{ .path }}
+              port: http
+            initialDelaySeconds: {{ .delay }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: DB_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Chart.Name }}-configs
+                  key: {{ .Values.db.host.name }}
+            - name: DB_DBNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Chart.Name }}-configs
+                  key: {{ .Values.db.name.name }}
+            - name: DB_TODOS_COLLECTION
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Chart.Name }}-configs
+                  key: {{ .Values.db.collection.name }}
+          volumeMounts:
+            - name: db-secrets
+              mountPath: /etc/db/secrets/
+              readOnly: true
+      volumes:
+        - name: db-secrets
+          secret:
+            secretName: {{ .Chart.Name }}-configs

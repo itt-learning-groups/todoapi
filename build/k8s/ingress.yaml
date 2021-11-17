@@ -13,9 +13,9 @@ spec:
   tls:
     - secretName: todoapi
       hosts:
-        - todoapi.dev.ittlearninggroups.com
+        - "todoapi.dev.ittlearninggroups.com"
   rules:
-    - host: todoapi.dev.ittlearninggroups.com
+    - host: "todoapi.dev.ittlearninggroups.com"
       http:
         paths:
           - path: /

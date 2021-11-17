@@ -1,0 +1,6 @@
+apiVersion: v2
+name: todoapi
+description: Simple Go CRUD web app for todo tasks
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
