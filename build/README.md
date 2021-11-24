@@ -20,7 +20,7 @@
 
 * Deploy the `dev` environment:
 
-      cd build/helm/chart_from_helm_starter
+      cd build/helm/chart_from_scratch
       helm upgrade --install todoapi ./todoapi \
         --create-namespace \
         --set 'ingress.hosts.host=todoapi.dev.ittlearninggroups.com' \
@@ -36,7 +36,7 @@
 
 * Deploy the `qa` environment:
 
-      cd build/helm/chart_from_helm_starter
+      cd build/helm/chart_from_scratch
       helm upgrade --install todoapi ./todoapi \
         --create-namespace \
         --set 'ingress.hosts.host=todoapi.qa.ittlearninggroups.com' \
@@ -52,7 +52,7 @@
 
 * Deploy the `prod` environment:
 
-      cd build/helm/chart_from_helm_starter
+      cd build/helm/chart_from_scratch
       helm upgrade --install todoapi ./todoapi \
         --create-namespace \
         --set 'ingress.hosts.host=todoapi.qa.ittlearninggroups.com' \
