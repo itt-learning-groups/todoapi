@@ -1,0 +1,74 @@
+image:
+  repository: brandallk/gotodoapiprivate
+  pullPolicy: Always
+  tag: latest
+
+imagePullSecrets:
+  - name: dockerlogin
+
+healthProbes:
+  liveness:
+    path: /
+    delay: 5
+  readiness:
+    path: /list
+    delay: 10
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/ingress.class: contour
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    host: todoapi.dev.ittlearninggroups.com
+    paths:
+      - path: /
+        pathType: Prefix
+  tls:
+    secretName: todoapi
+    hosts:
+      - todoapi.dev.ittlearninggroups.com
+
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  # targetCPUUtilizationPercentage: 50
+  targetMemoryUtilizationPercentage: 50
+
+db:
+  host:
+    name: dbhostname
+    value: cluster0.ci2qu.mongodb.net
+  name:
+    name: dbdbname
+    value: todoapidev
+  collection:
+    name: dbtodoscollection
+    value: todos
+
+imageCredentials:
+  registry:
+  username:
+  password:
+  email:
+
+dbCredentials:
+  dbusername:
+  dbpswd:
