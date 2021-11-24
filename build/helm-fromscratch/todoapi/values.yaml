@@ -34,14 +34,14 @@ ingress:
     kubernetes.io/ingress.class: contour
     kubernetes.io/tls-acme: "true"
   hosts:
-    - host: todoapi.dev.ittlearninggroups.com
-      paths:
-        - path: /
-          pathType: Prefix
+    host: todoapi.dev.ittlearninggroups.com
+    paths:
+      - path: /
+        pathType: Prefix
   tls:
-    - secretName: todoapi
-      hosts:
-        - todoapi.dev.ittlearninggroups.com
+    secretName: todoapi
+    hosts:
+      - todoapi.dev.ittlearninggroups.com
 
 replicaCount: 1
 
