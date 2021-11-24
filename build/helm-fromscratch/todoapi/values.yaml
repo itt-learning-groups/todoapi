@@ -62,3 +62,13 @@ db:
   collection:
     name: dbtodoscollection
     value: todos
+
+imageCredentials:
+  registry:
+  username:
+  password:
+  email:
+
+dbCredentials:
+  dbusername:
+  dbpswd:
