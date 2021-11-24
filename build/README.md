@@ -1,26 +1,86 @@
-# Deploying todoapi to kubernetes cluster
-
-From /build/ directory...
+# Deploying todoapi to a Kubernetes cluster in AWS EKS
 
 * Deploy the cluster:
 
-        ./cluster-deploy.sh
+      cd build/k8s-cluster-setup
+      ./cluster-deploy.sh
 
-*Note that we're still relying on the "env" labels and corresponding postfixes on the metadata names of the deployment & service resources to differentiate them for each environment ("dev", "qa", and "prod"), since each is currently deployed to the same (default) namespace.*
+* Build the Dockerfile and push the image to the private image repository of your choice (which matches the Docker login creds set in the following step).
 
-* Deploy the `dev` environment to the cluster's `default` namespace:
+* Set your image-repository and DB credentials as environment variables so you can use them in `--set` options when running the helm install/upgrade:
 
-        cd k8s
-        ./deploy.sh dev
+      export DOCKER_SERVER=...
+      export DOCKER_USERNAME=...
+      export DOCKER_PSWD=...
+      export DOCKER_EMAIL=...
+      export DB_USERNAME=...
+      export DB_PSWD_DEV=...
+      export DB_PSWD_QA=...
+      export DB_PSWD_PROD=...
 
-* Deploy the `qa` environment to the cluster's `default` namespace:
+* Deploy the `dev` environment:
 
-        ./deploy.sh qa
+      cd build/helm/chart_from_helm_starter
+      helm upgrade --install todoapi ./todoapi \
+        --create-namespace \
+        --set 'ingress.hosts.host=todoapi.dev.ittlearninggroups.com' \
+        --set 'ingress.tls.hosts={todoapi.dev.ittlearninggroups.com}' \
+        --set 'db.name.value=todoapidev' \
+        --set "imageCredentials.registry=${DOCKER_SERVER}" \
+        --set "imageCredentials.username=${DOCKER_USERNAME}" \
+        --set "imageCredentials.password=${DOCKER_PSWD}" \
+        --set "imageCredentials.email=${DOCKER_EMAIL}" \
+        --set "dbCredentials.dbusername=${DB_USERNAME}" \
+        --set "dbCredentials.dbpswd=${DB_PSWD_DEV}" \
+        -n dev
 
-* Deploy the `prod` environment to the cluster's `default` namespace:
+* Deploy the `qa` environment:
 
-        ./deploy.sh prod
+      cd build/helm/chart_from_helm_starter
+      helm upgrade --install todoapi ./todoapi \
+        --create-namespace \
+        --set 'ingress.hosts.host=todoapi.qa.ittlearninggroups.com' \
+        --set 'ingress.tls.hosts={todoapi.qa.ittlearninggroups.com}' \
+        --set 'db.name.value=todoapiqa' \
+        --set "imageCredentials.registry=${DOCKER_SERVER}" \
+        --set "imageCredentials.username=${DOCKER_USERNAME}" \
+        --set "imageCredentials.password=${DOCKER_PSWD}" \
+        --set "imageCredentials.email=${DOCKER_EMAIL}" \
+        --set "dbCredentials.dbusername=${DB_USERNAME}" \
+        --set "dbCredentials.dbpswd=${DB_PSWD_QA}" \
+        -n qa
+
+* Deploy the `prod` environment:
+
+      cd build/helm/chart_from_helm_starter
+      helm upgrade --install todoapi ./todoapi \
+        --create-namespace \
+        --set 'ingress.hosts.host=todoapi.qa.ittlearninggroups.com' \
+        --set 'ingress.tls.hosts={todoapi.qa.ittlearninggroups.com}' \
+        --set 'db.name.value=todoapiqa' \
+        --set "imageCredentials.registry=${DOCKER_SERVER}" \
+        --set "imageCredentials.username=${DOCKER_USERNAME}" \
+        --set "imageCredentials.password=${DOCKER_PSWD}" \
+        --set "imageCredentials.email=${DOCKER_EMAIL}" \
+        --set "dbCredentials.dbusername=${DB_USERNAME}" \
+        --set "dbCredentials.dbpswd=${DB_PSWD_QA}" \
+        -n prod
 
 ## Clean up
 
-Run `./destroy.sh dev`, `./destroy.sh qa`, `./destroy.sh prod` in the `k8s` directory, and/or `./cluster-destroy.sh` in the parent `build` directory.
+* Clean up the `dev` environment:
+
+      helm delete todoapi -n dev
+
+* Clean up the `qa` environment:
+
+      helm delete todoapi -n qa
+
+* Clean up the `prod` environment:
+
+      helm delete todoapi -n prod
+
+* Clean up the cluster:
+
+      cd build/k8s-cluster-setup
+      ./cluster-destroy.sh
