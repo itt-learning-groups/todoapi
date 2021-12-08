@@ -66,6 +66,9 @@
         --set "dbCredentials.dbpswd=${DB_PSWD_QA}" \
         -n prod
 
+* Deploy limited user-access control: See <https://github.com/itt-learning-groups/us_learn_and_devops_2021_12_08/blob/master/README.md>, section 3 ("RBAC I: Setting up IAM-based admin & developer access roles for the cluster")
+  * IAM policy examples in `build/k8s-cluster-setup/iam_groups` and `build/k8s-cluster-setup/iam_roles` are included to support this, though they will need to be customized for a given AWS account.
+  * An example `Role` and `RoleBinding` K8s manifest are also included for a "developer" role in `build/k8s-cluster-setup/rbac/learnanddevopsDeveloper`.
 ## Clean up
 
 * Clean up the `dev` environment:
